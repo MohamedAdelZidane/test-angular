@@ -1,0 +1,72 @@
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th >No.</th>
+            <th >Name</th>
+            <th >Image</th>
+            <th >Quantity</th>
+            <th >Price in USD</th>
+            <th >Price in EGP</th>
+            <th >Count</th>
+            <th >Buy</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- <tr *ngFor="let prd of prdList; let i = index" 
+          [class.d-none]="selectedCatID!=prd.categoryID"
+          [style.background-color]="(prd.price == 0) ? 'yellow' : 'lightgray'"> -->
+        <!-- <ng-container *ngFor="let prd of prdList; let i = index">
+            
+            <tr  *ngIf="prd.quantity!=0"> -->
+        <!-- <tr  [hidden]="prd.qauntity==0"> -->
+        <!-- <tr *ngFor="let prd of prdList; let i = index" [ngClass]="{'bg-warning': prd.quantity==0, 'text-primary': prd.quantity==0}"> -->
+            <tr *ngFor="let prd of prdListOfCat; let i = index" [ngStyle]="
+            {'background-color': prd.quantity == 0 ? 'yellow' : 'lightgray', 
+            'color': prd.quantity == 0 ? 'darkred' : 'darkblue'
+        }
+            ">
+
+            
+                <td>{{i+1}}</td>
+                <td>{{prd?.name}}</td>
+                <!-- lightBox take refrence from this element and pass it to TS file -->
+                <td><img LightBox="red" defaultColor="blue" [src]="prd.imgURL"></td>
+                <td >
+                    <!-- <div *ngIf="prd.quantity!=0; else outOfStock">
+                        {{prd.quantity}}
+                    </div>
+                    <ng-template #outOfStock>
+                        Out of Stock
+                    </ng-template> -->
+
+                    <ng-container [ngSwitch]="prd.quantity">
+                        <div *ngSwitchCase="0">Out of Stock</div>
+                        <div *ngSwitchCase="1">Last item!</div>
+                        <div *ngSwitchCase="2">Last 2 items</div>
+                        <div *ngSwitchDefault>{{prd.quantity}}</div>
+                    </ng-container>
+                   
+                </td>
+                <td>{{prd.price | currency: 'USD' : 'symbol'}}</td>
+                <td>{{prd.price | USDtoEGP : 31 | currency: 'EGP' : 'code'}}</td>
+                <td><input #itemsCount class="form-control" type="number"></td>
+                <td><button type="button" class="btn btn-secondary"
+                        (click)="buy(prd.price, itemsCount.value)">Buy</button></td>
+
+            </tr>
+        <!-- </ng-container> -->
+
+
+
+    </tbody>
+</table>
+<hr>
+
+<!-- <h3 class="text-danger">
+    To be Removed fot test <br>    
+    Order Total Price: {{orderTotalPrice}}
+
+</h3> -->
